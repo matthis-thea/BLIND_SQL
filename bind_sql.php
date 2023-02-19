@@ -14,14 +14,14 @@
 <?php
 if (isset($_POST['mdp']) && isset($_POST['identif']))
 {
-	// echo "Traitement du formulaire <br>";
+	echo "Traitement du formulaire <br>";
 	$identif = $_POST['identif'];
 	$mdp = $_POST['mdp'];
 	try
 	{
 		$con = new PDO('mysql:host=localhost;dbname=eni;charset=utf8', 'root', '92Ilastreetonestla&');
 		echo ("Connexion au serveur de BDD<br>");
-		$req = "SELECT nom, prenom FROM utilisateurs WHERE identifiant='".$identif."' AND motdepasse='".$mdp."';";
+		$req = "SELECT identifiant, motdepasse FROM utilisateurs WHERE identifiant='".$identif."' AND motdepasse='".$mdp."';";
 		echo ("Envoie de la requête $req <br>");
 		$rep = $con->query($req);
 		if ($rep)
@@ -30,18 +30,21 @@ if (isset($_POST['mdp']) && isset($_POST['identif']))
 			if ($lignes)
 			{
 				echo("<hr>");
-				echo("Votre nom est ".$lignes[0]['nom']." et votre prénom est ".$lignes[0]['prenom']."");
+				if (($lignes[0]['identifiant'] == $identif) && ($lignes[0]['motdepasse'] == $mdp))
+					echo ("Utilisateur identifié<br>");
+				else
+					echo ("Veuillez vérifiez votre identifiant ou votre mot de passe !<br>");
 			}
 			else
-				echo("Mauvais identifiant ou mot de passe !");
+				echo("Inconnu<br>");
 		}
 		else
-			echo ("Champ vide !");
+			echo ("Erreur<br>");
 		$con = null;
 	}
 	catch (PDOException $e)
 	{
-		print("Erreur de connexion ! <br>");
+		print("Erreur<br>");
 		die();
 	}
 }
