@@ -19,7 +19,7 @@ if (isset($_POST['mdp']) && isset($_POST['identif']))
 	$mdp = $_POST['mdp'];
 	try
 	{
-		$con = new PDO('mysql:host=localhost;dbname=eni;charset=utf8', '****', '******************');
+		$con = new PDO('mysql:host=localhost;dbname=eni;charset=utf8', 'root', '******************');
 		echo ("Connexion au serveur de BDD<br>");
 		$req = "SELECT identifiant, motdepasse FROM utilisateurs WHERE identifiant='".$identif."' AND motdepasse='".$mdp."';";
 		echo ("Envoie de la requête $req <br>");
